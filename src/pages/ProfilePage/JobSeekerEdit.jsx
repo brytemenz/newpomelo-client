@@ -26,7 +26,7 @@ const EditJobSeekerProfile = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:5005/api/jobseeker/${id}`,
+        `https://newpomelo.onrender.com/api/jobseeker/${id}`,
         {
           method: "PUT",
           body: formData,

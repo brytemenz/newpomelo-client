@@ -285,7 +285,7 @@ function BookingModal({ isOpen, onRequestClose, consultant }) {
     if (jobSeeker && consultant && sessionDate && packageType) {
       axios
         .post(
-          "http://localhost:5005/api/booking",
+          "https://newpomelo.onrender.com/api/booking",
           {
             consultant: consultant.consultant._id,
             jobseeker: jobSeeker,
@@ -449,11 +449,14 @@ function calculatePaymentAmount(packageType) {
 
 async function processPayment({ paymentMethodId, amount, currency }) {
   try {
-    const response = await axios.post("http://localhost:5005/api/payment", {
-      paymentMethodId,
-      amount,
-      currency,
-    });
+    const response = await axios.post(
+      "https://newpomelo.onrender.com/api/payment",
+      {
+        paymentMethodId,
+        amount,
+        currency,
+      }
+    );
 
     if (response.data.success) {
       return "success";

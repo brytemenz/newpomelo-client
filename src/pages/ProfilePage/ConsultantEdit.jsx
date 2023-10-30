@@ -49,7 +49,7 @@ const EditConsultantProfile = () => {
 
     try {
       const response = await fetch(
-        `http://localhost:5005/api/consultant/${id}`,
+        `https://newpomelo.onrender.com/api/consultant/${id}`,
         {
           method: "PUT",
           headers: {
@@ -73,7 +73,7 @@ const EditConsultantProfile = () => {
     if (window.confirm("Are you sure you want to delete your account?")) {
       try {
         const response = await fetch(
-          `http://localhost:5005/api/consultant/${id}`,
+          `https://newpomelo.onrender.com/api/consultant/${id}`,
           {
             method: "DELETE",
           }

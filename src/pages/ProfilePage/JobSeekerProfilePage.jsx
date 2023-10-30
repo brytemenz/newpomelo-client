@@ -28,7 +28,7 @@ const JobSeekerProfilePage = () => {
 
         console.log("Fetching job seeker data...");
         const response = await fetch(
-          "http://localhost:5005/api/jobseeker/profile",
+          "https://newpomelo.onrender.com/api/jobseeker/profile",
           {
             headers: { Authorization: `Bearer ${storedToken}` },
           }
