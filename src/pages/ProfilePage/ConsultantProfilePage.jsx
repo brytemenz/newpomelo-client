@@ -26,7 +26,7 @@ const ConsultantProfilePage = () => {
 
         console.log("Fetching consultant data...");
         const response = await fetch(
-          "http://localhost:5005/api/consultant/profile",
+          "https://newpomelo.onrender.com/api/consultant/profile",
           {
             headers: { Authorization: `Bearer ${storedToken}` },
           }

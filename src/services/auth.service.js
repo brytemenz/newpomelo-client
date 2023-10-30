@@ -4,8 +4,7 @@ class AuthService {
   constructor() {
     this.api = axios.create({
       baseURL:
-        process.env.REACT_APP_SERVER_URL ||
-        "https://pomelo-server.onrender.com",
+        process.env.REACT_APP_SERVER_URL || "https://newpomelo.onrender.com",
     });
 
     // Automatically set JWT token on the request headers for every request

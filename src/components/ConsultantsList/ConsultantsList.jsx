@@ -8,7 +8,7 @@ function ConsultantsList() {
 
   useEffect(() => {
     // Fetch consultant data from your API endpoint
-    fetch(`http://localhost:5005/api/consultants`)
+    fetch(`https://newpomelo.onrender.com/api/consultants`)
       .then((response) => response.json())
       .then((data) => {
         if (data.consultants && Array.isArray(data.consultants)) {
