@@ -33,13 +33,19 @@ class AuthService {
   };
 
   consignup = (requestBody) => {
-    return this.api.post("http://localhost:5005/api/consultant", requestBody);
+    return this.api.post(
+      "https://newpomelo.onrender.com/api/consultant",
+      requestBody
+    );
     // same as
     // return axios.post("http://localhost:5005/auth/singup");
   };
 
   jssignup = (requestBody) => {
-    return this.api.post("http://localhost:5005/api/jobseeker", requestBody);
+    return this.api.post(
+      "https://newpomelo.onrender.com/api/jobseeker",
+      requestBody
+    );
     // same as
     // return axios.post("http://localhost:5005/auth/singup");
   };
@@ -47,7 +53,7 @@ class AuthService {
   verify = () => {
     return this.api.get("/auth/verify");
     // same as
-    // return axios.post("http://localhost:5005/auth/verify");
+    // return axios.post("http://localhost:5005/auth/verif");
   };
 }
 
