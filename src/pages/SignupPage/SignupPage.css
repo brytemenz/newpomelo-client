@@ -1,0 +1,255 @@
+/* SignupPage.css
+.SignupPage {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 100vh;
+  background-image: url("./pomelopinkbg.png");
+  background-size: cover;
+  background-position: center;
+  position: relative;
+  padding: 20px;
+}
+
+.quote-container {
+  text-align: left;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+}
+
+.quote {
+  font-size: 24px;
+  margin-bottom: 10px;
+}
+
+.quote-author {
+  font-size: 18px;
+}
+
+.signup-form {
+  background-color: rgba(255, 255, 255, 0.8);
+  border-radius: 10px;
+  padding: 20px;
+  width: 600px;
+  text-align: center;
+  margin-right: 50px;
+}
+
+.signup-form input {
+  width: 100%;
+  padding: 10px;
+  margin: 10px 0;
+  border: none;
+  border-bottom: 1px solid #333;
+  outline: none;
+}
+
+.signup-form button {
+  background-color: #333;
+  color: white;
+  padding: 10px 20px;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.error-message {
+  color: red;
+}
+.quote-container {
+  text-align: left;
+  background-color: rgba(0, 0, 0, 0.7);
+  color: white;
+  padding: 20px;
+  border-radius: 10px;
+  max-width: 400px;
+  margin-left: 150px;
+  animation: slideRight 1s ease forwards;
+}
+
+@keyframes slideRight {
+  0% {
+    transform: translateX(-50px);
+    opacity: 0;
+  }
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+.quote {
+  font-size: 18px;
+  margin-bottom: 10px;
+  animation: fadeIn 1s ease forwards;
+}
+
+@keyframes fadeIn {
+  0% {
+    opacity: 0;
+  }
+  100% {
+    opacity: 1;
+  }
+}
+/* SignupPage.css */
+/* .author-image {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+  margin-right: 10px;
+  align-content: center;
+}  */
+
+
+.SignupPage {
+    display: flex;
+   
+    justify-content: center;
+    align-items: center;
+    margin-top: 20px;
+  }
+
+  .signupWording {
+    display:block;
+  }
+
+.SignupPage h1 {
+    padding: 15px;
+    font-size: 60px;
+    color: black;
+    display: inline-block;
+    font-weight: bolder;
+    text-align: center;
+    /* add font from google */
+    font-family: 'Big Shoulders Display', sans-serif;
+
+  }
+
+  
+  form {
+    margin: 0 auto;
+    max-width: 400px;
+    text-align: center;
+
+  }
+  
+  .signup-container {
+    flex: 1;
+
+    background-color: white;
+    font-family: "Big Shoulders Display";
+    text-align: center;
+    padding: 20px;
+  }
+  
+  .signup-container label {
+    font-weight: bold;
+    margin-bottom: 10px;
+    display: block;
+    font-family: "Big Shoulders Display";
+  }
+  
+  .signup-container input {
+    padding: 8px;
+    border: 1px solid #ccc;
+    width: 100%;
+    border-radius: 5px;
+    font-size: 16px;
+    text-align: center;
+    display: block;
+  }
+
+  .image-container img {
+    max-width: 800px;
+    height: auto;
+}
+  
+  /* styles for the email, password, and name input containers */
+  
+  
+ 
+  
+  button[type="submit"] {
+    background-color: white;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    color: black;
+    font-size: 28px;
+    font-weight: bolder;
+    cursor: pointer;
+    font-family: "Big Shoulders Display";
+    text-align: center;
+  }
+  
+  button[type="submit"]:hover {
+    background-color: black;
+    color: white;
+    transform: scale(1.05);
+    text-align: center;
+  }
+  
+  h1 {
+    padding: 15px;
+    font-size: 60px;
+    font-weight: bolder;
+    text-align: center;
+    /* add font from google */
+    font-family: 'Big Shoulders Display', sans-serif;
+  }
+  
+  h2 {
+    padding: 15px;
+    font-size: 30px;
+    font-weight: bolder;
+    text-align: center;
+    /* add font from google */
+    font-family: 'Big Shoulders Display', sans-serif;
+  }
+  
+  /* body {
+    background-image: url('/public/pomelo.png');
+    background-size: 55%;
+    background-repeat: no-repeat;
+    /* add font from google */
+    /*font-family: 'Big Shoulders Display', sans-serif;
+  } */
+  
+  .signup-form {
+    background-color: white;
+    color: #333;
+    padding: 20px;
+    border-radius: 5px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  }
+  
+  form button {
+    max-width: 985px;
+    min-height: 45px;
+    border-radius: 15px;
+    background-color: #DBB7AD;
+    padding: 4px 53px;
+    margin-bottom: 50px;
+    color: rgb(255, 255, 255);
+    font-size: 20px;
+    border: none;
+    cursor: pointer;
+    font-family: "Big Shoulders Display";
+    text-align: center;
+  }
+  
+  form button:hover {
+    background-color: #948D24;
+    transform: scale(1.07);
+  }
+  
+
+.image-container {
+    flex: 1;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}

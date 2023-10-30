@@ -1,0 +1,80 @@
+/* ConsultantDetail.css */
+.consultant-detail {
+  padding: 20px;
+  background-color: #f5f5f5;
+}
+
+.cover-card {
+  border: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.edit-cover-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  color: #007bff;
+}
+
+.profile-card {
+  border: none;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+}
+
+.profile-picture {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  margin: 0 auto;
+  margin-top: -50px;
+  border: 5px solid #fff;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+}
+
+.edit-profile-icon {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background: transparent;
+  border: none;
+  color: #007bff;
+}
+
+.profile-title {
+  text-align: center;
+  font-size: 24px;
+  color: #333;
+}
+
+.profile-subtitle {
+  text-align: center;
+  font-size: 18px;
+  color: #666;
+}
+
+.profile-description {
+  margin-top: 20px;
+  font-size: 16px;
+  color: #444;
+}
+
+.book-button {
+  text-align: center;
+  margin-top: 20px;
+}
+
+.book-now-button {
+  background-color: #007bff;
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  padding: 10px 20px;
+  font-size: 18px;
+}
+
+.back-button {
+  text-align: center;
+  margin-top: 20px;
+}
