@@ -222,16 +222,14 @@ import DatePicker from "react-datepicker";
 import axios from "axios";
 import { CardElement, useStripe, useElements } from "@stripe/react-stripe-js";
 import "react-datepicker/dist/react-datepicker.css";
-import "./BookingModal.css";
-import { useParams } from "react-router-dom";
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import { useConsultantContext } from "../../context/consultant.context";
 import { useJobSeekerContext } from "../../context/jobseeker.context";
-import { AuthContext } from "../../context/auth.context"; // Import AuthContext
 
 Modal.setAppElement("#root");
 
-function BookingModal({ isOpen, onRequestClose }) {
-  const { consultantId, jobseekerId } = useParams();
+function BookingModal({ isOpen, onRequestClose, consultant }) {
   const [sessionDate, setSessionDate] = useState(null);
   const [packageType, setPackageType] = useState("3");
   const [paymentStatus, setPaymentStatus] = useState("Pending");
@@ -239,10 +237,7 @@ function BookingModal({ isOpen, onRequestClose }) {
   const stripe = useStripe();
   const elements = useElements();
   const storedToken = localStorage.getItem("authToken");
-  const { consultant } = useConsultantContext();
   const { jobSeeker } = useJobSeekerContext();
-  console.log("consultant:", consultant);
-  console.log("jobSeeker:", jobSeeker);
 
   useEffect(() => {
     if (consultant && consultant.paymentStatus) {
@@ -287,24 +282,13 @@ function BookingModal({ isOpen, onRequestClose }) {
   };
 
   const handleCreateBooking = () => {
-    console.log("consultant:", consultant);
-    console.log("jobSeeker:", jobSeeker);
-
-    console.log("Request Data:", {
-      consultant: consultant?._id,
-      jobseeker: jobSeeker?._id,
-      sessionDate: sessionDate.toISOString(),
-      packageType: parseInt(packageType, 10),
-      paymentStatus,
-    });
-
     if (jobSeeker && consultant && sessionDate && packageType) {
       axios
         .post(
           "http://localhost:5005/api/booking",
           {
-            consultant: consultant?._id,
-            jobseeker: jobSeeker?._id,
+            consultant: consultant.consultant._id,
+            jobseeker: jobSeeker,
             sessionDate: sessionDate.toISOString(),
             packageType: parseInt(packageType, 10),
             paymentStatus,
@@ -319,6 +303,7 @@ function BookingModal({ isOpen, onRequestClose }) {
         .then((response) => {
           console.log("Booking created:", response.data);
           onRequestClose();
+          showSuccessToast();
         })
         .catch((error) => {
           console.error("Error creating booking:", error);
@@ -330,26 +315,45 @@ function BookingModal({ isOpen, onRequestClose }) {
       );
     }
   };
+
+  const showSuccessToast = () => {
+    toast.success(
+      "Booking created successfully. Consultants will reach out soon.",
+      {
+        position: "top-right",
+        autoClose: 50000,
+        hideProgressBar: false,
+        closeOnClick: true,
+        pauseOnHover: true,
+        draggable: true,
+      }
+    );
+  };
+
   return (
     <Modal
       isOpen={isOpen}
       onRequestClose={onRequestClose}
       className="booking-modal"
+      overlayClassName="overlay"
     >
-      <div className="modal-dialog modal-lg">
+      <div className="modal-dialog modal-lg bg-white rounded-lg shadow-lg">
         <div className="modal-content">
-          <div className="modal-header">
-            <h5 className="modal-title">Book Now</h5>
+          <div className="modal-header bg-indigo-600 text-white py-3 rounded-t-lg text-center">
+            <h5 className="modal-title text-2xl font-semibold">Book Now</h5>
             <button
               type="button"
-              className="btn-close"
+              className="btn-close text-white"
               onClick={onRequestClose}
             ></button>
           </div>
-          <div className="modal-body">
-            <form>
-              <div className="mb-3">
-                <label htmlFor="sessionDate" className="form-label">
+          <div className="modal-body p-4">
+            <form className="grid grid-cols-1 gap-4">
+              <div className="flex flex-col">
+                <label
+                  htmlFor="sessionDate"
+                  className="form-label text-indigo-600"
+                >
                   Select Date:
                 </label>
                 <DatePicker
@@ -358,36 +362,36 @@ function BookingModal({ isOpen, onRequestClose }) {
                   onChange={(date) => setSessionDate(date)}
                   placeholderText="Select a Date"
                   minDate={new Date()}
-                  className="form-control"
+                  className="form-input rounded-md"
                 />
               </div>
-              <div className="mb-3">
-                <label htmlFor="packageType" className="form-label">
+              <div className="flex flex-col">
+                <label
+                  htmlFor="packageType"
+                  className="form-label text-indigo-600"
+                >
                   Select Package:
                 </label>
                 <select
                   id="packageType"
                   value={packageType}
                   onChange={(e) => setPackageType(e.target.value)}
-                  className="form-select"
+                  className="form-select rounded-md"
                 >
                   <option value="3">3 Sessions</option>
                   <option value="5">5 Sessions</option>
                   <option value="7">7 Sessions</option>
                 </select>
               </div>
-              <div className="mb-3">
-                <label className="form-label">
-                  Payment Status: {paymentStatus}
-                </label>
+              <div className="text-center text-indigo-600">
+                Payment Status: {paymentStatus}
               </div>
-              {error && (
-                <div className="alert alert-danger" role="alert">
-                  {error}
-                </div>
-              )}
-              <div className="mb-3">
-                <label htmlFor="cardDetails" className="form-label">
+              {error && <div className="text-center text-red-600">{error}</div>}
+              <div className="flex flex-col">
+                <label
+                  htmlFor="cardDetails"
+                  className="form-label text-indigo-600"
+                >
                   Card Details:
                 </label>
                 <CardElement
@@ -397,16 +401,23 @@ function BookingModal({ isOpen, onRequestClose }) {
               </div>
             </form>
           </div>
-          <div className="modal-footer">
-            <button className="btn btn-primary" onClick={handleProcessPayment}>
+          <div className="modal-footer flex justify-between p-4 bg-indigo-600 rounded-b-lg">
+            <button
+              className="btn btn-primary rounded-md py-2 px-6"
+              onClick={handleProcessPayment}
+            >
               Process Payment
             </button>
-            <button className="btn btn-danger" onClick={onRequestClose}>
+            <button
+              className="btn btn-danger rounded-md py-2 px-4"
+              onClick={onRequestClose}
+            >
               Close
             </button>
           </div>
         </div>
       </div>
+      <ToastContainer />
     </Modal>
   );
 }

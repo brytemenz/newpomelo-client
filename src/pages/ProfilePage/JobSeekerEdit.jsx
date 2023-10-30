@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import { Link, useParams } from "react-router-dom";
-import { Card, ListGroup, Row, Col, Form, Button } from "react-bootstrap";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome"; // Import FontAwesome icons
-import { faCamera, faPencilAlt } from "@fortawesome/free-solid-svg-icons"; // Import specific icons
+import { Card, Form, Button } from "react-bootstrap";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPencilAlt } from "@fortawesome/free-solid-svg-icons";
 
 const EditJobSeekerProfile = () => {
   const { id } = useParams();
@@ -15,23 +15,21 @@ const EditJobSeekerProfile = () => {
   const handleFormSubmit = async (e) => {
     e.preventDefault();
 
-    // Create a FormData object to send the form data including the CV file
     const formData = new FormData();
     formData.append("firstName", firstName);
     formData.append("lastName", lastName);
     formData.append("description", description);
-    formData.append("cvFile", cvFile);
+
+    if (cvFile) {
+      formData.append("cvFile", cvFile);
+    }
 
     try {
-      // Send a PUT request to update the job seeker's profile with the form data
       const response = await fetch(
         `http://localhost:5005/api/jobseeker/${id}`,
         {
           method: "PUT",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(formData),
+          body: formData,
         }
       );
 
@@ -56,38 +54,17 @@ const EditJobSeekerProfile = () => {
           setFirstName(data.firstName);
           setLastName(data.lastName);
           setDescription(data.description);
-          // Assuming the CV file is a URL, you can set it like this:
-          // setCvFile(data.cvUrl);
-          setIsDataFetched(true); // Mark data as fetched
+          setIsDataFetched(true);
         })
         .catch((error) => {
           console.error("Error fetching job seeker data:", error);
-          // Handle any errors, e.g., show an error message
         });
     }
   }, [id, isDataFetched]);
 
   return (
     <div className="container profile-container">
-      <div className="cover-picture">
-        <img
-          src="/testcover.png"
-          alt="Cover"
-          className="img-fluid cover-image"
-        />
-        <button className="edit-cover-icon">
-          <FontAwesomeIcon icon={faCamera} />
-        </button>
-      </div>
       <div className="profile-header text-center">
-        <img
-          src="/bryte.png"
-          alt="Profile"
-          className="profile-picture img-thumbnail rounded-circle"
-        />
-        <button className="edit-profile-icon">
-          <FontAwesomeIcon icon={faCamera} />
-        </button>
         <h1 className="profile-title">
           {firstName} {lastName}
         </h1>
@@ -147,43 +124,8 @@ const EditJobSeekerProfile = () => {
           </Card.Body>
         </Card>
       </div>
-      <Row>
-        <Col md={4}>
-          <Card>
-            <Card.Header className="bg-success text-white">Video</Card.Header>
-            <div className="video-container">
-              <iframe
-                width="100%"
-                height="100%"
-                src="https://www.youtube.com/embed/0MprWWQILbc"
-                frameBorder="0"
-                allowFullScreen
-                title="YouTube Video"
-              ></iframe>
-            </div>
-          </Card>
-        </Col>
-        <Col md={8}>
-          <div className="profile-session-container">
-            <h2 className="profile-subtitle">
-              Booked Sessions with Consultants
-            </h2>
-            <Card className="session-card">
-              <Card.Header className="bg-success text-white">
-                Sessions
-              </Card.Header>
-              <ListGroup variant="flush">
-                <ListGroup.Item>
-                  Session with kiruba - 12/10/2023
-                </ListGroup.Item>
-                {/* Add more booked session items here */}
-              </ListGroup>
-            </Card>
-          </div>
-        </Col>
-      </Row>
       <Link
-        to={`/jsprofile/edit/${id}`}
+        to={`/job-seeker-profile/edit/${id}`}
         className="btn btn-secondary edit-profile-link"
       >
         Cancel

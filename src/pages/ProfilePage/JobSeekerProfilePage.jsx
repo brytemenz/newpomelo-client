@@ -1,16 +1,21 @@
 import React, { useState, useEffect, useContext } from "react";
+import { Card, Button, Spinner } from "react-bootstrap";
 import { Link } from "react-router-dom";
-import { Card, ListGroup, Row, Col, Button, Spinner } from "react-bootstrap";
-import { AuthContext } from "../../context/auth.context";
-import { JobSeekerContext } from "../../context/jobseeker.context";
 import VideoChatComponent from "../../components/Booking/VideoChatComponent";
 import "./ProfilePage.css";
+import { AuthContext } from "../../context/auth.context";
 
 const JobSeekerProfilePage = () => {
   const { authToken, isLoading: authLoading, user } = useContext(AuthContext);
-  const jobSeekerContext = useContext(JobSeekerContext);
   const [loadingJobSeeker, setLoadingJobSeeker] = useState(true);
   const [error, setError] = useState(null);
+
+  // Define state to store jobSeeker data and bookings
+  const [profileData, setProfileData] = useState({
+    jobSeeker: null,
+    bookings: [],
+  });
+
   const storedToken = localStorage.getItem("authToken");
 
   useEffect(() => {
@@ -32,7 +37,15 @@ const JobSeekerProfilePage = () => {
         if (response.ok) {
           const data = await response.json();
           console.log("Fetched job seeker data:", data);
-          jobSeekerContext.setJobSeeker(data);
+
+          // Check if data contains the jobSeeker property
+          if (data.jobSeeker) {
+            // Set the profileData state with the data
+            setProfileData(data);
+          } else {
+            setError("Job seeker data not available.");
+          }
+
           setLoadingJobSeeker(false);
         } else {
           console.log("Error loading job seeker data.");
@@ -69,12 +82,11 @@ const JobSeekerProfilePage = () => {
     return <p>{error}</p>;
   }
 
-  if (!jobSeekerContext.jobSeeker) {
-    return <p>Not logged in or data not available.</p>;
+  if (!profileData.jobSeeker) {
+    return <p>Job seeker data not available.</p>;
   }
 
-  const { firstName, lastName, jobSeekerBio, bookings } =
-    jobSeekerContext.jobSeeker;
+  const { firstName, lastName, jobSeekerBio } = profileData.jobSeeker;
 
   return (
     <div className="container profile-container">
@@ -88,6 +100,7 @@ const JobSeekerProfilePage = () => {
           <i className="fas fa-pencil-alt"></i>
         </button>
       </div>
+
       <div className="profile-header text-center">
         <img
           src="/kiruba.webp"
@@ -101,56 +114,25 @@ const JobSeekerProfilePage = () => {
         <p className="profile-info">{user.userType}</p>
       </div>
 
-      <div className="profile-details-container">
-        <Card className="profile-details-card">
-          <Card.Body>
-            <Card.Text className="text-center">{jobSeekerBio}</Card.Text>
-          </Card.Body>
-        </Card>
+      <Card>
+        <div>
+          <p>
+            While you wait for the consultant, watch this video to get started
+          </p>
+          <iframe
+            width="100%"
+            height="400" // Set the desired height value (e.g., 400)
+            src="https://www.youtube.com/embed/0MprWWQILbc"
+            frameBorder="0"
+            allowFullScreen
+            title="YouTube Video"
+          ></iframe>
+        </div>
+      </Card>
+
+      <div className="video-chat-container">
+        <VideoChatComponent />
       </div>
-
-      <Row>
-        <Col md={4}>
-          <Card>
-            <Card.Header className="bg-success text-white">Video</Card.Header>
-            <div className="video-container">
-              <iframe
-                width="100%"
-                height="100%"
-                src="https://www.youtube.com/embed/0MprWWQILbc"
-                frameBorder="0"
-                allowFullScreen
-                title="YouTube Video"
-              ></iframe>
-            </div>
-          </Card>
-        </Col>
-
-        <Col md={8}>
-          <div className="profile-session-container">
-            <h2 className="profile-subtitle">Booked Sessions</h2>
-            <Card className="session-card">
-              <Card.Header className="bg-success text-white">
-                Sessions
-              </Card.Header>
-              <ListGroup variant="flush">
-                {bookings && bookings.length > 0 ? (
-                  bookings.map((booking, index) => (
-                    <ListGroup.Item key={index}>
-                      Session with {booking.consultant} -{" "}
-                      {new Date(booking.date).toLocaleString()}
-                    </ListGroup.Item>
-                  ))
-                ) : (
-                  <p>No past sessions found.</p>
-                )}
-              </ListGroup>
-            </Card>
-          </div>
-        </Col>
-      </Row>
-
-      <VideoChatComponent />
 
       <Link to={`/jsprofile/edit/${user._id}`}>
         <Button variant="success" className="edit-profile-link">

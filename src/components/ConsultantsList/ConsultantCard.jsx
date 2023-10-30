@@ -1,33 +1,44 @@
-import React from "react";
+// ConsultantCard.js
+import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import "bootstrap/dist/css/bootstrap.min.css";
-import "./styles/ConsultantCard.css";
-//import "Navbar.css";
 
 function ConsultantCard({ consultant }) {
+  const [liked, setLiked] = useState(false);
+
+  const handleLike = () => {
+    setLiked(!liked);
+  };
+
   return (
-    <div className="card consultant-card" style={{ width: "18rem" }}>
+    <div className="bg-white rounded-lg shadow-lg p-4 w-64">
       <img
-        src={consultant.profilePicture}
-        className="card-img-top"
-        alt={consultant.name}
+        src={consultant.profilePicture || ""}
+        className="w-full h-48 object-cover rounded-t-lg"
+        alt={`${consultant.firstName} ${consultant.lastName}`}
       />
-      <div className="card-body">
-        <h5 className="card-title consultant-name">{consultant.name}</h5>
-        <h6 className="card-subtitle mb-2 text-muted consultant-info">
-          {consultant.info}
+      <div className="p-4">
+        <h5 className="text-lg font-semibold consultant-name">
+          {consultant.firstName} {consultant.lastName}
+        </h5>
+        <h6 className="text-gray-600 text-sm consultant-info">
+          {consultant.consultantBio} Consultant
         </h6>
-        <div className="card-body-bottom">
-          <p className="card-text consultant-rating">
-            Rating: {consultant.rating}
-          </p>
-          <Link
-            to={`/consultants/${consultant.id}`}
-            className="btn btn-primary consultant-link"
-          >
-            View Profile
-          </Link>
-        </div>
+        <Link
+          to={`/consultant/detail/${consultant._id}`}
+          className="mt-4 inline-block text-indigo-600 hover:underline"
+        >
+          View Profile
+        </Link>
+        <button
+          onClick={handleLike}
+          className="mt-2 text-indigo-600 hover:text-indigo-800 focus:outline-none"
+        >
+          {liked ? (
+            <i className="fas fa-heart text-2xl text-red-500"></i>
+          ) : (
+            <i className="far fa-heart text-2xl"></i>
+          )}
+        </button>
       </div>
     </div>
   );

@@ -1,131 +1,80 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import ConsultantCard from "./ConsultantCard";
-import "./styles/ConsultantsList.css";
-
-const consultantData = [
-  {
-    id: 1,
-    name: "Alex Palmer",
-    profilePicture: "alexPalmer.jpg",
-    info: "Experienced in international corporate recruitment for 15 years",
-    rating: 4,
-  },
-  {
-    id: 2,
-    name: "Martin Roberts",
-    profilePicture: "martin.jpg",
-    info: "Medical and pharmaceutical recruitment expert",
-    rating: 5,
-  },
-  {
-    id: 3,
-    name: "Sobana Swarnam",
-    profilePicture: "sobanaSwarnam.jpg",
-    info: "Talent-seeking consultant with 100% track record of matching jobseekers with positions",
-    rating: 5,
-  },
-  {
-    id: 4,
-    name: "Mark Settgast",
-    profilePicture: "Mark.jpg",
-    info: "Expert in CV optimisation and cover letters and the property development market",
-    rating: 5,
-  },
-  {
-    id: 5,
-    name: "Lindsey Goldwin",
-    profilePicture: "LindseyGoldwin.avif",
-    info: "Legal recruitment and international business experience across Europe, based in Madrid",
-    rating: 5,
-  },
-  {
-    id: 6,
-    name: "Pablo Vietta",
-    profilePicture: "PabloVietta.webp",
-    info: "Specialist in the German and British employment markets, based in Berlin",
-    rating: 5,
-  },
-  {
-    id: 7,
-    name: "Brian De Silva",
-    profilePicture: "briandesilva.png",
-    info: "Legal English expert and proofreader based in Paris. ",
-    rating: 5,
-  },
-  {
-    id: 8,
-    name: "Jamie Guthrie",
-    profilePicture: "JamieGuthrie.jpeg",
-    info: "International recruitment expert.",
-    rating: 5,
-  },
-  {
-    id: 9,
-    name: "Celia Dawson",
-    profilePicture: "celiadawson.jpg",
-    info: "recruitment expert in the hospitality market for 12 years.",
-    rating: 5,
-  },
-  {
-    id: 10,
-    name: "Matt Hughes",
-    profilePicture: "matthughes.jpg",
-    info: "Sustainable job market expert based in Berlin.",
-    rating: 5,
-  },
-  {
-    id: 11,
-    name: "Seniv Petro",
-    profilePicture: "SenivPetro.jpg",
-    rating: 4,
-    info: "Language consultant and recruitment expert based in Morocco.",
-  },
-  {
-    id: 12,
-    name: "Smita Singh",
-    profilePicture: "smitasingh.jpg",
-    info: "London based recruitment expert with proven track record.",
-    rating: 5,
-  },
-  {
-    id: 13,
-    name: "Kiruba Berlin",
-    profilePicture: "kiruba.webp",
-    info: "Legal and journalistic recruitment consultant with 20 years of international corporate experience. ",
-    rating: 5,
-  },
-];
-
-const backgroundImageURL = "juicyPomelo.png";
+import "daisyui/dist/full.css";
 
 function ConsultantsList() {
+  const [consultantData, setConsultantData] = useState([]);
+  const [searchTerm, setSearchTerm] = useState("");
+
+  useEffect(() => {
+    // Fetch consultant data from your API endpoint
+    fetch(`http://localhost:5005/api/consultants`)
+      .then((response) => response.json())
+      .then((data) => {
+        if (data.consultants && Array.isArray(data.consultants)) {
+          setConsultantData(data.consultants);
+        } else {
+          console.error(
+            "Invalid API response: Missing or invalid 'consultants' property"
+          );
+        }
+      })
+      .catch((error) => {
+        console.error("Error fetching consultant data: ", error);
+      });
+  }, []);
+
+  const filteredConsultants = consultantData.filter((consultant) =>
+    consultant.firstName.toLowerCase().includes(searchTerm.toLowerCase())
+  );
+
   return (
-    <div className="consultants-list  ">
-      {/* Background image div */}
-      <div
-        className="background-image"
-        style={{ backgroundImage: `url(${backgroundImageURL})` }}
+    <div className="bg-indigo-50 p-8">
+      <section
+        className="bg-indigo-700 text-white py-16 relative"
+        style={{
+          backgroundImage: `url('/consultant.jpg')`,
+          backgroundRepeat: "no-repeat",
+          backgroundSize: "cover",
+          backgroundPosition: "center",
+        }}
       >
-        <div className="transbox">
-          <h1 className="title">Meet our POMELO Consultants</h1>
-          <p className="infoText">
-            <div className="transparentPaper">
-              You can rely on our talented group of international consultants to
-              add sparkle to your CV and let you fly through your next
-              interviews.{" "}
-            </div>
+        <div className="container mx-auto text-center relative z-10">
+          <h1 className="text-5xl font-extrabold mb-4 animate__animated animate__fadeIn">
+            Welcome to POMELO Consultants
+          </h1>
+          <p className="text-xl animate__animated animate__fadeIn">
+            Explore and connect with our talented consultants.
           </p>
-          <p className="paragraph">
-            Trust the <span className="white">fruit.</span> Trust{" "}
-            <span className="white">POMELO.</span>
-          </p>{" "}
         </div>
-      </div>
-      <div className="cards">
-        {consultantData.map((consultant) => (
-          <ConsultantCard key={consultant.id} consultant={consultant} />
-        ))}
-      </div>
+      </section>
+
+      <section className="py-8">
+        <div className="container mx-auto">
+          <div className="mx-auto w-3/4">
+            <div className="relative">
+              <input
+                type="text"
+                placeholder="Search consultants"
+                className="w-full pl-12 pr-4 py-2 rounded-lg focus:outline-none focus:shadow-outline border border-gray-300 bg-gray-800 text-white"
+                value={searchTerm}
+                onChange={(e) => setSearchTerm(e.target.value)}
+              />
+              <div className="absolute top-0 left-0 pl-4 flex items-center h-full pointer-events-none">
+                <i className="text-gray-400 fas fa-search"></i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section className="bg-white py-8">
+        <div className="container mx-auto grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {filteredConsultants.map((consultant) => (
+            <ConsultantCard key={consultant._id} consultant={consultant} />
+          ))}
+        </div>
+      </section>
     </div>
   );
 }
